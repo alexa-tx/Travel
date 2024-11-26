@@ -1,0 +1,455 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=M+PLUS+Rounded+1c&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.gradient{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom rgba(17, 26, 37, 0.8), rgba(37, 36, 37, 0.2));
+}
+
+.hero-slider{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-slider .carousel-cell{
+    width: 100%;
+    height: 100%;
+    background: no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-slider .carousel-cell .info-container {
+    color: #faf9f7;
+    position: relative;
+}
+
+.hero-slider .carousel-cell .info-container .header-text{
+    font-size: 35px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 8px;
+}
+
+.hero-slider .carousel-cell .info-container .text {
+    font-size: 46px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 32px;
+}
+
+.hero-slider .carousel-cell .info-container button{
+    padding: 12px 20px;
+    background: transparent;
+    border: 3px solid #ac966b;
+    color: #faf9f7;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.hero-slider .carousel-cell .info-container button:hover{
+    background: #ac966b;
+    color: #000;
+    font-weight: bold;
+}
+
+.hero-slider .flickity-prev-next-button{
+    width: 85px;
+    height: 85px;
+    background: transparent;
+}
+
+.hero-slider .flickity-prev-next-button .arrow{
+    fill: #ac966b;
+}
+
+.hero-slider .flickity-page-dots{
+    bottom: 60px;
+}
+
+.hero-slider .flickity-page-dots .dot{
+    width: 40px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    opacity: 1;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.hero-slider .flickity-page-dots .dot:hover,
+.hero-slider .flickity-page-dots .dot.is-selected{
+    background: #ac966b;
+}
+
+.header {
+    width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 40px 0;
+    z-index: 1000;
+}
+
+header .logo {
+    text-transform: uppercase;
+    font-size: 29px;
+    font-weight: 800;
+}
+
+header nav{
+    float: right;
+    width: 30%;
+}
+
+header nav ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+header nav ul li{
+    display: inline-block;
+    text-decoration: none;
+}
+
+header nav ul a{
+    color: #000;
+    text-decoration: none;
+}
+
+header nav ul li:not(.btn-profile) a:hover{
+    border-bottom: 3px solid #ac966b;
+    border-radius: 1px;
+}
+
+header nav ul li.btn-profile a{
+    background: #85b587;
+    padding: 9px 17px;
+    border-radius: 5px;
+    transition: all 500ms ease;
+}
+
+header nav ul li.btn a:hover{
+    background: #71eb75;
+}
+
+.container-form {
+    background-color: #aec7a3;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    width: 550px;
+    max-width: 100%;
+    min-height: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.container-form  h1 {
+    margin-top: 20px;
+}
+
+.container-form  p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.container-form  span {
+    font-size: 12px;
+}
+
+.container-form  a {
+    color: #121214;
+    font-size: 12px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container-form i {
+    padding: 10px;
+    width: 50px;
+    font-size: 24px;
+}
+
+.container-form button {
+    padding: 10px 45px;
+    border-radius: 5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #af7b5c
+}
+
+.container-form  a.signin, a.noacc {
+   margin-top: 5px;
+}
+
+.container-form  a.pass {
+    justify-content: right;
+}
+.container-form button:hover {
+    background-color: #8a6149;
+}
+.container-form  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 70px;
+}
+
+.container-form  input {
+    background-color: #fff;
+    border: none;
+    color: #293133;
+    margin: 10px 0;
+    padding: 5px 15px;
+    border-radius: 5px;
+    outline: none;
+    width: 400px;
+    text-align: left;
+    font-size: 16px;
+    height: 50px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+.welcome-section {
+    display: flex;
+    margin-left: 100px;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.welcome-section .text-content {
+    max-width: 50%;
+}
+
+.welcome-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.welcome-section p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.welcome-section .text-content {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.welcome-section .image-content {
+    flex: 1;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.welcome-section .image-content img {
+    width: 500px;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+.facts-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.facts-section .fact {
+    max-width: 30%;
+}
+
+.facts-section i {
+    color: #72acce;
+    font-size: 80px;
+    margin-bottom: 10px;
+}
+
+.facts-section h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.facts-section p {
+    color: #666;
+}
+
+/* Секция популярных туров */
+.popular-tours-section {
+    margin-bottom: 50px;
+}
+
+.popular-tours-section h2 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.popular-tours-section .tour-cards {
+    display: flex;
+    justify-content: space-around;
+}
+
+.popular-tours-section .tour-card {
+    text-align: center;
+    max-width: 30%;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.popular-tours-section .tour-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.popular-tours-section button {
+    background: #ccbca1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popular-tours-section button:hover {
+    background: #6374aa;
+}
+
+/* Секция отзывов */
+.reviews-section {
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.reviews-section .review {
+    max-width: 600px;
+    margin: 0 auto 20px;
+    font-style: italic;
+    color: #555;
+}
+
+.reviews-section cite {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 50px;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-section p, .footer-section ul {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 5px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+}
