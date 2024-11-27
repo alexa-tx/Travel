@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <?php include '../includes/header.html'; ?>
+    <?php include '../includes/header.php' ?>
 
     <main>
         <section class="welcome-section">
