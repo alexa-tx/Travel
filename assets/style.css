@@ -805,3 +805,93 @@ main {
 .logout-btn:hover {
     background-color: #ff1e1e;
 }
+
+.star-rating {
+    font-size: 24px;
+    color: #ffd700;
+}
+
+.star {
+    margin-right: 5px;
+}
+
+.star.filled {
+    color: #ffd700;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f7fc;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+.container-inner {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.checkmark {
+    font-size: 80px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0);
+    animation: checkmarkAnimation 1s ease-out forwards;
+}
+
+@keyframes checkmarkAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.redirect-message {
+    font-size: 16px;
+    color: #555;
+}
+
+.redirect-message span {
+    font-weight: bold;
+    color: #FF5722;
+    animation: redirectText 3s forwards;
+}
+
+@keyframes redirectText {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

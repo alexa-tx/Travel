@@ -7,45 +7,58 @@
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <?php include '../includes/header.php' ?>
+    <?php 
+    include '../includes/header.php'; 
+    include '../config/db_connect.php';
+
+    $genre = isset($_GET['genre']) ? $_GET['genre'] : null;
+    if ($genre) {
+        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, t.image AS tour_image 
+                               FROM tour t
+                               JOIN hotel h ON t.idHotel = h.idHotel
+                               WHERE t.genre = :genre");
+        $stmt->execute(['genre' => $genre]);
+    } else {
+        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, t.image AS tour_image 
+                               FROM tour t
+                               JOIN hotel h ON t.idHotel = h.idHotel");
+        $stmt->execute();
+    }
+
+    $tours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
     <section class="tours-section">
-    <div class="tours-header">
-        <h2>Туры</h2>
-        <p>Выберите свой идеальный маршрут среди наших предложений</p>
-    </div>
-    <div class="tours-filters">
-        <button class="filter-btn active" data-category="all">Все</button>
-        <button class="filter-btn" data-category="beach">Пляжный отдых</button>
-        <button class="filter-btn" data-category="adventure">Приключения</button>
-        <button class="filter-btn" data-category="culture">Культурные туры</button>
-    </div>
-    <div class="tours-list">
-        <div class="tour-card" data-category="beach">
-            <img src="../assets/tour1.jpg" alt="Пляжный отдых">
-            <h3>Мальдивы</h3>
-            <p>Насладитесь белоснежными пляжами и лазурными водами.</p>
-            <button class="btn" onclick="window.location.href='register-tour.php'">Подробнее</button>
+        <div class="tours-header">
+            <h2>Туры</h2>
+            <p>Выберите свой идеальный маршрут среди наших предложений</p>
         </div>
-        <div class="tour-card" data-category="adventure">
-            <img src="../assets/tour2.jpg" alt="Приключенческий тур">
-            <h3>Гималаи</h3>
-            <p>Незабываемый треккинг и виды, которые захватывают дух.</p>
-            <button class="btn" onclick="window.location.href='register-tour.php'">Подробнее</button>
+        <div class="tours-filters">
+            <a href="tours.php" class="filter-btn <?= !$genre ? 'active' : '' ?>">Все</a>
+            <a href="tours.php?genre=пляж" class="filter-btn <?= ($genre === 'пляж') ? 'active' : '' ?>">Пляжный отдых</a>
+            <a href="tours.php?genre=приключение" class="filter-btn <?= ($genre === 'приключение') ? 'active' : '' ?>">Приключения</a>
+            <a href="tours.php?genre=экскурсионный" class="filter-btn <?= ($genre === 'экскурсионный') ? 'active' : '' ?>">Культурные туры</a>
+            <a href="tours.php?genre=городской" class="filter-btn <?= ($genre === 'городской') ? 'active' : '' ?>">Городские туры</a>
         </div>
-        <div class="tour-card" data-category="culture">
-            <img src="../assets/tour3.jpg" alt="Культурный тур">
-            <h3>Италия</h3>
-            <p>Погрузитесь в историю, искусство и изысканную кухню.</p>
-            <button class="btn" onclick="window.location.href='register-tour.php'">Подробнее</button>
+
+        <div class="tours-list">
+            <?php if (count($tours) > 0): ?>
+                <?php foreach ($tours as $tour): ?>
+                    <div class="tour-card" data-category="<?= htmlspecialchars($tour['genre']) ?>">
+                        <img src="../<?= !empty($tour['tour_image']) ? htmlspecialchars($tour['tour_image']) : 'default-tour-image.jpg' ?>" 
+                             alt="<?= htmlspecialchars($tour['hotelName']) ?>">
+                        <h3><?= htmlspecialchars($tour['country']) ?></h3>
+                        <p><strong>Отель:</strong> <?= htmlspecialchars($tour['hotelName']) ?></p>
+                        <p><strong>Звезды:</strong> <?= str_repeat('&#9733;', (int)$tour['stars']) ?></p>
+                        <p><strong>Цена:</strong> <?= number_format($tour['price'], 2, ',', ' ') ?> руб.</p>
+                        <button class="btn" onclick="window.location.href='register-tour.php?id=<?= $tour['idTour'] ?>'">Выбрать тур</button>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Туры с выбранным жанром не найдены.</p>
+            <?php endif; ?>
         </div>
-        <div class="tour-card" data-category="beach">
-            <img src="../assets/tour4.jpg" alt="Пляжный отдых">
-            <h3>Бали</h3>
-            <p>Райские пляжи и уникальная природа ждут вас.</p>
-            <button class="btn" onclick="window.location.href='register-tour.php'">Подробнее</button>
-        </div>
-    </div>
-</section>
-    <?php include '../includes/footer.html' ?>
+    </section>
+    <?php include '../includes/footer.html'; ?>
 </body>
 </html>
