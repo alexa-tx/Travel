@@ -13,10 +13,11 @@
 
     $genre = isset($_GET['genre']) ? $_GET['genre'] : null;
     if ($genre) {
-        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, t.image AS tour_image 
-                               FROM tour t
-                               JOIN hotel h ON t.idHotel = h.idHotel
-                               WHERE t.genre = :genre");
+        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, h.description, t.image AS tour_image 
+                       FROM tour t
+                       JOIN hotel h ON t.idHotel = h.idHotel
+                       WHERE t.genre = :genre");
+
         $stmt->execute(['genre' => $genre]);
     } else {
         $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, t.image AS tour_image 
@@ -52,6 +53,7 @@
                         <p><strong>Звезды:</strong> <?= str_repeat('&#9733;', (int)$tour['stars']) ?></p>
                         <p><strong>Цена:</strong> <?= number_format($tour['price'], 2, ',', ' ') ?> руб.</p>
                         <button class="btn" onclick="window.location.href='register-tour.php?id=<?= $tour['idTour'] ?>'">Выбрать тур</button>
+                        <button class="btn" onclick="showDetails('<?= htmlspecialchars(json_encode($tour)) ?>')">Подробнее</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -59,6 +61,41 @@
             <?php endif; ?>
         </div>
     </section>
+    <div id="tour-modal" class="tour-modal" style="display: none;">
+    <div class="tour-modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div id="tour-details"></div>
+    </div>
+</div>
+<script>
+    function openModal(tourId) {
+    const modal = document.getElementById('tour-modal');
+    const tourDetails = document.getElementById('tour-details');
+    tourDetails.innerHTML = `<p>Загрузка информации о туре ID: ${tourId}</p>`;
+    modal.style.display = 'block';
+}
+function closeModal() {
+    const modal = document.getElementById('tour-modal');
+    modal.style.display = 'none';
+}
+function showDetails(tourData) {
+    const data = JSON.parse(tourData);
+    console.log(data);
+    const modal = document.getElementById('tour-modal');
+    const tourDetails = document.getElementById('tour-details');
+    tourDetails.innerHTML = `
+        <h3>Подробнее о туре: ${data.country}</h3>
+        <p><strong>Отель:</strong> ${data.hotelName}</p>
+        <p><strong>Звезды:</strong> ${'★'.repeat(data.stars)}</p>
+        <p><strong>Город:</strong> ${data.city}</p>
+        <p><strong>Описание отеля:</strong> ${data.hotel_description || 'Описание отсутствует.'}</p>
+        <p><strong>Цена:</strong> ${data.price} руб.</p>
+        <img src="../${data.tour_image}" alt="${data.hotelName}" />
+    `;
+    modal.style.display = 'block';
+}
+
+</script>
     <?php include '../includes/footer.html'; ?>
 </body>
 </html>

@@ -41,17 +41,15 @@ include '../config/db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
     if ($user && password_verify($password, $user['password'])) {
         session_start();
         $_SESSION['user_id'] = $user['idUser'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['email'] = $user['email'];
-
+        $_SESSION['fullName'] = $user['fullName'];
         header("Location: ../views/profile.php");
         exit;
     } else {
@@ -59,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     }
 }
 ?>
+
 
 </body>
 </html>
