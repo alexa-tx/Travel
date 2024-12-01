@@ -25,10 +25,10 @@ if ($tour) {
         'stars' => $tour['stars'],
         'city' => $tour['city'],
         'country' => $tour['country'],
-        'hotel_description' => $tour['hotel_description'], // Поле описания
+        'hotel_description' => $tour['hotel_description'],
         'price' => $tour['price'],
         'tour_image' => $tour['tour_image']
-    ], JSON_UNESCAPED_UNICODE); // Для корректного отображения кириллицы
+    ], JSON_UNESCAPED_UNICODE);
     
 } else {
     echo json_encode(['error' => 'Тур не найден.']);

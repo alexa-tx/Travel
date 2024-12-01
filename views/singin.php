@@ -31,8 +31,16 @@
 
 <?php
 session_start();
+
+// Если пользователь уже авторизован, перенаправляем на профиль или главную страницу
 if (isset($_SESSION['user_id'])) {
-    header("Location: profile.php");
+    if ($_SESSION['role'] === 'admin') {
+        // Если роль администратора, перенаправляем на админ-панель
+        header("Location: ../admin/index.php");
+    } else {
+        // Если обычный пользователь, перенаправляем на его профиль
+        header("Location: ../views/profile.php");
+    }
     exit;
 }
 
@@ -41,18 +49,29 @@ include '../config/db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+    
+    // Проверяем пользователя в базе данных
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if ($user && password_verify($password, $user['password'])) {
-        session_start();
+        // Пользователь найден и пароль верен, сохраняем данные в сессии
         $_SESSION['user_id'] = $user['idUser'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['fullName'] = $user['fullName'];
-        header("Location: ../views/profile.php");
+        
+        // Если роль администратора, перенаправляем на админскую панель
+        if ($user['role'] === 'admin') {
+            header("Location: ../admin/index.php");
+        } else {
+            // Для обычных пользователей перенаправляем на профиль
+            header("Location: ../views/profile.php");
+        }
         exit;
     } else {
+        // Если email или пароль неверные
         echo "<p style='color:red; text-align:center;'>Неверный email или пароль.</p>";
     }
 }

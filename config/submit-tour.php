@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config/db_connect.php';
+include 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_SESSION['user_id'])) {
@@ -13,39 +13,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $returnDate = trim($_POST['returnDate']);
         $destination = trim($_POST['destination']);
         $hotelName = trim($_POST['hotel']);
-        $idTour = (int) $_POST['idTour'];
-        if (empty($fullName) || empty($phone) || empty($email) || empty($departureCity) || 
-            empty($departureDate) || empty($returnDate) || empty($destination) || empty($hotelName) || empty($idTour)) {
+        $idTour = (int)$_POST['idTour'];
+        $seats = (int)$_POST['seats'];
+        $totalPrice = (float)str_replace(' ₽', '', $_POST['totalPrice']);
+
+        // Проверка на заполненность полей
+        if (empty($fullName) || empty($phone) || empty($email) || empty($departureCity) ||
+            empty($departureDate) || empty($returnDate) || empty($destination) || empty($hotelName) ||
+            empty($idTour) || empty($seats) || empty($totalPrice)) {
             echo "Пожалуйста, заполните все поля!";
             exit;
         }
+
+        // Проверяем существование тура и отеля
         $tour_check = $pdo->prepare("SELECT * FROM tour WHERE idTour = :idTour");
         $tour_check->execute(['idTour' => $idTour]);
         $hotel_check = $pdo->prepare("SELECT * FROM hotel WHERE hotelName = :hotelName");
         $hotel_check->execute(['hotelName' => $hotelName]);
+
         if ($tour_check->rowCount() > 0 && $hotel_check->rowCount() > 0) {
             $hotel_data = $hotel_check->fetch(PDO::FETCH_ASSOC);
             $stars = $hotel_data['stars'];
+
             $pdo->beginTransaction();
 
             try {
+                // Сохраняем заказ
                 $stmt = $pdo->prepare("INSERT INTO orders 
-                    (fullName, phone, email, departureCity, departureDate, returnDate, destination, hotel, stars, idUser, idTour) 
-                    VALUES (:fullName, :phone, :email, :departureCity, :departureDate, :returnDate, :destination, :hotel, :stars, :idUser, :idTour)");
+                    (fullName, phone, email, departureCity, departureDate, returnDate, destination, hotel, stars, idUser, idTour, seats, totalPrice) 
+                    VALUES (:fullName, :phone, :email, :departureCity, :departureDate, :returnDate, :destination, :hotel, :stars, :idUser, :idTour, :seats, :totalPrice)");
 
                 $stmt->execute([
-                    ':fullName' => $fullName, 
-                    ':phone' => $phone, 
-                    ':email' => $email, 
-                    ':departureCity' => $departureCity, 
-                    ':departureDate' => $departureDate, 
-                    ':returnDate' => $returnDate, 
-                    ':destination' => $destination, 
-                    ':hotel' => $hotelName, 
-                    ':stars' => $stars, 
-                    ':idUser' => $user_id, 
-                    ':idTour' => $idTour
+                    ':fullName' => $fullName,
+                    ':phone' => $phone,
+                    ':email' => $email,
+                    ':departureCity' => $departureCity,
+                    ':departureDate' => $departureDate,
+                    ':returnDate' => $returnDate,
+                    ':destination' => $destination,
+                    ':hotel' => $hotelName,
+                    ':stars' => $stars,
+                    ':idUser' => $user_id,
+                    ':idTour' => $idTour,
+                    ':seats' => $seats,
+                    ':totalPrice' => $totalPrice
                 ]);
+
                 $pdo->commit();
                 echo "Ваша заявка успешно отправлена!";
             } catch (Exception $e) {
@@ -66,5 +79,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 header('Location: confirmation.php');
 exit;
-
 ?>

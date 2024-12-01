@@ -13,10 +13,11 @@
 
     $genre = isset($_GET['genre']) ? $_GET['genre'] : null;
     if ($genre) {
-        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, h.description, t.image AS tour_image 
+        $stmt = $pdo->prepare("SELECT t.*, h.hotelName, h.stars, h.city, h.country, h.description AS hotel_description, t.image AS tour_image 
                        FROM tour t
                        JOIN hotel h ON t.idHotel = h.idHotel
                        WHERE t.genre = :genre");
+
 
         $stmt->execute(['genre' => $genre]);
     } else {
@@ -80,7 +81,8 @@ function closeModal() {
 }
 function showDetails(tourData) {
     const data = JSON.parse(tourData);
-    console.log(data);
+    console.log(data); // Оставляем для отладки
+
     const modal = document.getElementById('tour-modal');
     const tourDetails = document.getElementById('tour-details');
     tourDetails.innerHTML = `
@@ -88,12 +90,14 @@ function showDetails(tourData) {
         <p><strong>Отель:</strong> ${data.hotelName}</p>
         <p><strong>Звезды:</strong> ${'★'.repeat(data.stars)}</p>
         <p><strong>Город:</strong> ${data.city}</p>
-        <p><strong>Описание отеля:</strong> ${data.hotel_description || 'Описание отсутствует.'}</p>
+        <p><strong>Описание тура:</strong> ${data.tourDescription || 'Описание отсутствует.'}</p>
         <p><strong>Цена:</strong> ${data.price} руб.</p>
         <img src="../${data.tour_image}" alt="${data.hotelName}" />
     `;
     modal.style.display = 'block';
 }
+
+
 
 </script>
     <?php include '../includes/footer.html'; ?>
