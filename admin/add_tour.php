@@ -62,6 +62,9 @@ if (isset($_POST['add_tour'])) {
     <title>Добавить тур</title>
 </head>
 <body>
+<?php 
+    include '../includes/header.php';
+    ?>
     <div class="admin-panel">
         <h1>Добавить новый тур</h1>
         <form method="POST" enctype="multipart/form-data">
@@ -99,5 +102,8 @@ if (isset($_POST['add_tour'])) {
             <button type="submit" name="add_tour">Добавить тур</button>
         </form>
     </div>
+    <?php 
+    include '../includes/footer.html';
+    ?>
 </body>
 </html>

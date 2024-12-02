@@ -58,7 +58,22 @@ if (isset($_POST['edit_user'])) {
     <title>Управление пользователями</title>
 </head>
 <body>
+<?php 
+    include '../includes/header.php';
+    ?>
     <div class="admin-panel">
+    <header class="admin-header">
+        <div class="logo">Админская панель</div>
+        <nav>
+            <ul>
+                <li><a href="manage_users.php">Пользователи</a></li>
+                <li><a href="manage_tours.php">Туры</a></li>
+                <li><a href="manage_hotels.php">Отели</a></li>
+                <li><a href="manage_reviews.php">Отзывы</a></li>
+                <li><a href="reports.php">Отчеты</a></li>
+            </ul>
+        </nav>
+    </header>
         <h1>Управление пользователями</h1>
 
         <!-- Форма добавления нового администратора -->
@@ -97,5 +112,8 @@ if (isset($_POST['edit_user'])) {
             </tbody>
         </table>
     </div>
+    <?php 
+    include '../includes/footer.html';
+    ?>
 </body>
 </html>

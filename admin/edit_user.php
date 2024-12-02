@@ -42,6 +42,9 @@ if (isset($_POST['edit_user'])) {
     <title>Редактирование пользователя</title>
 </head>
 <body>
+<?php 
+    include '../includes/header.php';
+    ?>
     <div class="admin-panel">
         <h1>Редактировать пользователя</h1>
         <form method="POST">
@@ -54,5 +57,8 @@ if (isset($_POST['edit_user'])) {
             <button type="submit" name="edit_user">Сохранить изменения</button>
         </form>
     </div>
+    <?php 
+    include '../includes/footer.html';
+    ?>
 </body>
 </html>

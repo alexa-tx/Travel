@@ -1,33 +1,29 @@
 <?php
 session_start();
-
 if ($_SESSION['role'] !== 'admin') {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 
 include '../config/db_connect.php';
-
-$stmt = $pdo->prepare("SELECT * FROM users");
-$stmt->execute();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+$stmt = $pdo->query("SELECT * FROM hotel");
+$hotels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/style.css">
-    <title>Админская панель</title>
+    <title>Управление отелями</title>
 </head>
 <body>
-    <?php 
+<?php 
     include '../includes/header.php';
     ?>
     <div class="admin-panel">
-        <h1>Добро пожаловать в Админскую панель!</h1>
-        <header class="admin-header">
+    <header class="admin-header">
         <div class="logo">Админская панель</div>
         <nav>
             <ul>
@@ -39,37 +35,33 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </ul>
         </nav>
     </header>
-
-        <h2>Список пользователей</h2>
-        <?php if ($users && count($users) > 0): ?>
+        <h1>Управление отелями</h1>
+        <a href="add_hotel.php" class="button">Добавить отель</a>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Имя</th>
-                    <th>Email</th>
-                    <th>Роль</th>
+                    <th>Название</th>
+                    <th>Страна</th>
+                    <th>Город</th>
+                    <th>Звезды</th>
                     <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
+                <?php foreach ($hotels as $hotel): ?>
                     <tr>
-                        <td><?= htmlspecialchars($user['idUser']) ?></td>
-                        <td><?= htmlspecialchars($user['fullName']) ?></td>
-                        <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= htmlspecialchars($user['role']) ?></td>
+                        <td><?= htmlspecialchars($hotel['hotelName']) ?></td>
+                        <td><?= htmlspecialchars($hotel['country']) ?></td>
+                        <td><?= htmlspecialchars($hotel['city']) ?></td>
+                        <td><?= htmlspecialchars($hotel['stars']) ?></td>
                         <td>
-                            <a href="edit_user.php?id=<?= htmlspecialchars($user['idUser']) ?>">Редактировать</a>
-                            <a href="delete_user.php?id=<?= htmlspecialchars($user['idUser']) ?>">Удалить</a>
+                            <a href="edit_hotel.php?id=<?= $hotel['idHotel'] ?>">Редактировать</a>
+                            <a href="delete_hotel.php?id=<?= $hotel['idHotel'] ?>" onclick="return confirm('Вы уверены, что хотите удалить этот отель?');">Удалить</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?php else: ?>
-        <p>Пользователи не найдены.</p>
-        <?php endif; ?>
     </div>
     <?php 
     include '../includes/footer.html';

@@ -35,7 +35,23 @@ try {
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
+<?php 
+    include '../includes/header.php';
+    ?>
+    <header class="admin-header">
+        <div class="logo">Админская панель</div>
+        <nav>
+            <ul>
+                <li><a href="manage_users.php">Пользователи</a></li>
+                <li><a href="manage_tours.php">Туры</a></li>
+                <li><a href="manage_hotels.php">Отели</a></li>
+                <li><a href="manage_reviews.php">Отзывы</a></li>
+                <li><a href="reports.php">Отчеты</a></li>
+            </ul>
+        </nav>
+    </header>
 <h1>Управление турами</h1>
+
 
 <table border="1" cellpadding="10" cellspacing="0">
     <thead>
@@ -84,5 +100,8 @@ try {
 </table>
 
 <a href="add_tour.php">Добавить новый тур</a>
+<?php 
+    include '../includes/footer.html';
+    ?>
 </body>
 </html>
