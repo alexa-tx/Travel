@@ -17,4 +17,17 @@
             
         </ul>
     </nav>
+    <div class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </header>
+<script>
+    const burger = document.getElementById('burger');
+    const header = document.querySelector('header');
+
+    burger.addEventListener('click', () => {
+        header.classList.toggle('nav-open');
+    });
+</script>

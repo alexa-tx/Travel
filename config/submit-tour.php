@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $seats = (int)$_POST['seats'];
         $totalPrice = (float)str_replace(' ₽', '', $_POST['totalPrice']);
 
-        // Проверка на заполненность полей
+        // проверка на заполненность полей
         if (empty($fullName) || empty($phone) || empty($email) || empty($departureCity) ||
             empty($departureDate) || empty($returnDate) || empty($destination) || empty($hotelName) ||
             empty($idTour) || empty($seats) || empty($totalPrice)) {
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        // Проверяем существование тура и отеля
+        // проверяем существование тура и отеля
         $tour_check = $pdo->prepare("SELECT * FROM tour WHERE idTour = :idTour");
         $tour_check->execute(['idTour' => $idTour]);
         $hotel_check = $pdo->prepare("SELECT * FROM hotel WHERE hotelName = :hotelName");
@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $pdo->beginTransaction();
 
             try {
-                // Сохраняем заказ
                 $stmt = $pdo->prepare("INSERT INTO orders 
                     (fullName, phone, email, departureCity, departureDate, returnDate, destination, hotel, stars, idUser, idTour, seats, totalPrice) 
                     VALUES (:fullName, :phone, :email, :departureCity, :departureDate, :returnDate, :destination, :hotel, :stars, :idUser, :idTour, :seats, :totalPrice)");

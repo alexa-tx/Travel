@@ -115,10 +115,10 @@ $stmt->execute(['idTour' => $idTour]);
     </form>
 </section>
 <script>
-    // Рассчитываем итоговую стоимость на основе выбранного количества мест
+    // рассчитываем итоговую стоимость на основе выбранного количества мест
     const seatsInput = document.getElementById('seats');
     const totalPriceInput = document.getElementById('totalPrice');
-    const pricePerSeat = <?= htmlspecialchars($tour['price']) ?>; // Предположим, цена за место хранится в `price`.
+    const pricePerSeat = <?= htmlspecialchars($tour['price']) ?>;
 
     function updateTotalPrice() {
         const seats = parseInt(seatsInput.value) || 1;
@@ -126,7 +126,7 @@ $stmt->execute(['idTour' => $idTour]);
     }
 
     seatsInput.addEventListener('input', updateTotalPrice);
-    updateTotalPrice(); // Обновляем при загрузке страницы
+    updateTotalPrice();
 </script>
 <?php include '../includes/footer.html'; ?>
 

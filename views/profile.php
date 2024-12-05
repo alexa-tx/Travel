@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Получаем данные пользователя
+//получаем данные пользователя
 $stmt = $pdo->prepare("SELECT fullName, email, phoneNumber, dateOfBirth, role FROM users WHERE idUser = :id");
 $stmt->execute(['id' => $_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -17,7 +17,20 @@ if (!$user) {
     exit;
 }
 
-// вывод данных заявок тура
+//проверка на поступление новых заявок на оформление тура
+$newOrdersCount = 0;
+if ($user['role'] === 'manager') {
+    $newOrdersStmt = $pdo->prepare("
+        SELECT COUNT(*) AS newOrdersCount 
+        FROM orders 
+        WHERE approvalStatus = 'pending'
+    ");
+    $newOrdersStmt->execute();
+    $newOrders = $newOrdersStmt->fetch(PDO::FETCH_ASSOC);
+    $newOrdersCount = $newOrders['newOrdersCount'] ?? 0;
+}
+
+//получаем из базы данных всю информацию об оформленных туров
 $toursStmt = $pdo->prepare("
     SELECT 
         o.idOrder, 
@@ -47,7 +60,7 @@ $tours = $toursStmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Профиль</title>
 </head>
 <body>
-<?php include '../includes/header.php' ?>
+<?php include '../includes/header.php'; ?>
 
 <div class="profile-container">
     <h1>Профиль пользователя</h1>
@@ -58,6 +71,13 @@ $tours = $toursStmt->fetchAll(PDO::FETCH_ASSOC);
         <p><strong>Дата рождения:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
     </div>
 
+    <!-- уведомление о новых заявок -->
+    <?php if ($user['role'] === 'manager' && $newOrdersCount > 0): ?>
+        <div class="notification">
+            <p>У вас есть <?= $newOrdersCount ?> новых заявок на туры!</p>
+        </div>
+    <?php endif; ?>
+
     <!-- разделение ролей -->
     <?php if ($user['role'] === 'admin'): ?>
         <a href="../admin/index.php" class="btn">Панель администратора</a>
@@ -65,7 +85,7 @@ $tours = $toursStmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="../manager/requests.php" class="btn">Просмотр заявок</a>
     <?php endif; ?>
 
-    <!-- вывод тура которые оформил пользователь -->
+    <!-- вывод туров, если пользователь их оформлял -->
     <?php if ($user['role'] === 'user'): ?>
         <div class="user-tours">
             <h2>Мои туры</h2>
@@ -122,6 +142,6 @@ $tours = $toursStmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="submit" class="logout-btn">Выйти</button>
     </form>
 </div>
-<?php include '../includes/footer.html'?>
+<?php include '../includes/footer.html'; ?>
 </body>
 </html>

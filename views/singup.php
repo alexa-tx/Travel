@@ -9,7 +9,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Регистрация</title>
     <script>
-        // Функция для отображения сообщения об успешной регистрации
+        // регистрация прошла успешно
         function showSuccessMessage() {
             if (confirm("Регистрация успешна! Перейти ко входу?")) {
                 window.location.href = "singin.php";
@@ -51,14 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $password = password_hash(trim($_POST['password']), PASSWORD_BCRYPT);
 
     try {
-        // Проверяем, существует ли пользователь с такой почтой
+        //проверка пользователя на наличие этой почты
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
 
         if ($stmt->rowCount() > 0) {
             echo "<p style='color: red; text-align: center;'>Этот email уже зарегистрирован.</p>";
         } else {
-            // Добавляем нового пользователя в базу данных
+            //добавляем нового пользователя в базу данных
             $stmt = $pdo->prepare("
                 INSERT INTO users (fullName, phoneNumber, email, dateOfBirth, password, role) 
                 VALUES (:fullName, :phoneNumber, :email, :dateOfBirth, :password, 'user')
@@ -70,8 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 'dateOfBirth' => $dateOfBirth,
                 'password' => $password
             ]);
-
-            // Если регистрация успешна, выводим сообщение с помощью JavaScript
             echo "<script>showSuccessMessage();</script>";
         }
     } catch (PDOException $e) {

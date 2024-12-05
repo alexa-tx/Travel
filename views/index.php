@@ -59,6 +59,7 @@ session_start();
             echo "</div>";
             }
         ?>
+        <!-- возможность добавление отзыва только для авторизованных пользователей -->
         <?php if (isset($_SESSION['fullName'])): ?>
             <form id="reviewForm" class="review-form">
                 <label for="reviewTitle">Заголовок:</label>
