@@ -20,6 +20,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/style.css">
     <title>Админская панель</title>
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <?php 

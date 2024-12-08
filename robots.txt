@@ -1,0 +1,19 @@
+# robots.txt for https://oriontour.com/
+
+# Разрешаем доступ ко всем страницам сайта для поисковых систем
+User-agent: *
+Disallow: /admin/  # Запрещаем доступ к административной части сайта
+Disallow: /private/  # Запрещаем доступ к личным данным пользователей, если они находятся в этом разделе
+
+# Разрешаем доступ к основным страницам сайта
+Allow: index.php
+Allow: /views/index.php
+Allow: /views/about.php
+Allow: /views/tours.php
+Allow: /views/profile.php
+Allow: /views/singin.php
+Allow: /views/singup.php
+Allow: /views/register-tour.php
+
+# Специальные директивы для поисковиков
+Sitemap: https://oriontour.com/sitemap.xml

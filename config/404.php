@@ -85,6 +85,7 @@
         }
 
     </style>
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
 </head>
 <body>
 

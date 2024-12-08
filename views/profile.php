@@ -58,6 +58,7 @@ $tours = $toursStmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/style.css">
     <title>Профиль</title>
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <?php include '../includes/header.php'; ?>

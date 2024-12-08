@@ -8,6 +8,8 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orion</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Горящие туры в Европу, Турцию и Египет. Забронируйте отдых онлайн.">
 </head>
 <body>
     <?php include '../includes/header.php' ?>
@@ -20,6 +22,7 @@ session_start();
                     Orion – ваш надёжный гид в мир увлекательных путешествий. Мы предлагаем уникальные туры, 
                     которые подойдут каждому, кто ищет приключения, отдых и вдохновение.
                 </p>
+                <a href="../views/tours.php" class="button">Посмотреть туры</a>
             </div>
             <div class="image-content">
                 <img src="../assets/image/welcome-image.jpg" alt="Welcome to Orion">

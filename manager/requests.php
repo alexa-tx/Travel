@@ -24,6 +24,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../assets/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Менеджер: Управление заказами</title>
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <?php include '../includes/header.php'; ?>

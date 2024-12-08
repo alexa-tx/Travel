@@ -4,19 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orion | Туры</title>
+    <link rel="icon" href="assets/image/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
     <?php 
     include '../includes/header.php'; 
     include '../config/db_connect.php';
+
     $genre = isset($_GET['genre']) ? $_GET['genre'] : null;
     $search = isset($_GET['search']) ? trim($_GET['search']) : null;
+    $min_price = isset($_GET['min_price']) ? (float)$_GET['min_price'] : null;
+    $max_price = isset($_GET['max_price']) ? (float)$_GET['max_price'] : null;
+
     $query = "SELECT t.*, h.hotelName, h.stars, h.city, h.country, t.image AS tour_image, h.description AS hotel_description
               FROM tour t
               JOIN hotel h ON t.idHotel = h.idHotel";
     $conditions = [];
     $params = [];
+
     if ($genre) {
         $conditions[] = "t.genre = :genre";
         $params['genre'] = $genre;
@@ -25,9 +31,18 @@
         $conditions[] = "(h.country LIKE :search OR h.city LIKE :search OR h.hotelName LIKE :search)";
         $params['search'] = '%' . $search . '%';
     }
+    if ($min_price !== null && $min_price >= 0) {
+        $conditions[] = "t.price >= :min_price";
+        $params['min_price'] = $min_price;
+    }
+    if ($max_price !== null && $max_price >= 0) {
+        $conditions[] = "t.price <= :max_price";
+        $params['max_price'] = $max_price;
+    }
     if (!empty($conditions)) {
         $query .= " WHERE " . implode(' AND ', $conditions);
     }
+
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $tours = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -47,7 +62,20 @@
             </form>
         </div>
 
-       <!-- фильтрация по жанру тура -->
+        <!-- фильтрация по цене -->
+        <div class="tours-price-filter">
+            <form method="GET" action="tours.php">
+                <label for="min_price">Цена от:</label>
+                <input type="number" name="min_price" id="min_price" placeholder="Минимальная цена" 
+                       value="<?= htmlspecialchars($min_price ?? '') ?>">
+                <label for="max_price">до:</label>
+                <input type="number" name="max_price" id="max_price" placeholder="Максимальная цена" 
+                       value="<?= htmlspecialchars($max_price ?? '') ?>">
+                <button type="submit" class="btn">Применить</button>
+            </form>
+        </div>
+
+        <!-- фильтрация по жанру тура -->
         <div class="tours-filters">
             <a href="tours.php" class="filter-btn <?= !$genre ? 'active' : '' ?>">Все</a>
             <a href="tours.php?genre=пляж" class="filter-btn <?= ($genre === 'пляж') ? 'active' : '' ?>">Пляжный отдых</a>
@@ -72,7 +100,7 @@
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>Туры с выбранным жанром или условиями поиска не найдены.</p>
+                <p>Туры с выбранным жанром, диапазоном цен или условиями поиска не найдены.</p>
             <?php endif; ?>
         </div>
     </section>
